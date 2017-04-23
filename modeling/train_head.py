@@ -16,7 +16,7 @@ img_dim = 224
 
 model_dir = 'data/models'
 model_name = 'resnet50_conv_1.h5'
-model_weights = 'resnet50_conv_1-weights-improvement-05-0.87.hdf5'
+model_weights = ''
 
 input_dims = (7, 7, 2048)
 
