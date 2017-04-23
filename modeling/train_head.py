@@ -114,25 +114,31 @@ def train_model():
     x = Dropout(0.2)(x)
     x = Dense(nbr_classes, activation='softmax')(x)
 
+    print('fitting model nbr_classes:', nbr_classes)
+
     model = Model(x_in, x)
     if len(model_weights) > 0:
         model.load_weights(model_dir + '/' + model_weights)
     model.summary()
 
-    model.compile(optimizer=Adam(lr=(1e-3)/16.0),
+    model.compile(optimizer=Adam(lr=1e-4),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
     model.summary()
     filepath="data/models/" + model_name.split('.')[0] + "-weights-improvement-{epoch:02d}-{val_categorical_accuracy:.2f}.hdf5"
-    checkpoint = ModelCheckpoint(filepath, monitor='val_categorical_accuracy', verbose=1, save_best_only=True, mode='max')
+    checkpoint = ModelCheckpoint(filepath, monitor='val_categorical_accuracy', verbose=2, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
+
+    # iterate through less than an epoch to get model weights saved more
+    epoch_divisor = 4
+
     model.fit_generator(gen_trn,
-                        steps_per_epoch=(nbr_trn_samples // batch_size),
-                        epochs=10, verbose=2, validation_data=gen_tst,
+                        steps_per_epoch=(nbr_trn_samples // batch_size // epoch_divisor),
+                        epochs=8, verbose=2, validation_data=gen_tst,
                         validation_steps=(nbr_tst_samples // batch_size),
                         initial_epoch=0,
-                        callbacks = callbacks_list)
+                        callbacks=callbacks_list)
 
     Y_test = []
     Y_pred = []
