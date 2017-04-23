@@ -121,7 +121,7 @@ def train_model():
         model.load_weights(model_dir + '/' + model_weights)
     model.summary()
 
-    model.compile(optimizer=Adam(lr=1e-4),
+    model.compile(optimizer=Adam(lr=1e-4, decay=1e-4),
                   loss='categorical_crossentropy',
                   metrics=['categorical_accuracy'])
 
