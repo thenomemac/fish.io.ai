@@ -126,8 +126,8 @@ def train_model():
                   metrics=['categorical_accuracy'])
 
     model.summary()
-    filepath="data/models/" + model_name.split('.')[0] + "-weights-improvement-{epoch:02d}-{val_categorical_accuracy:.2f}.hdf5"
-    checkpoint = ModelCheckpoint(filepath, monitor='val_categorical_accuracy', verbose=2, save_best_only=True, mode='max')
+    checkpoint_model = os.path.join("data/models", "resnet50_finetune_head.h5")
+    checkpoint = ModelCheckpoint(checkpoint_model, monitor='val_categorical_accuracy', verbose=1, save_best_only=True, mode='max')
     callbacks_list = [checkpoint]
 
     # iterate through less than an epoch to get model weights saved more
