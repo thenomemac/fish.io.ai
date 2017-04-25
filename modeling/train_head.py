@@ -136,7 +136,7 @@ def train_model():
     model.fit_generator(gen_trn,
                         steps_per_epoch=(nbr_trn_samples // batch_size // epoch_divisor),
                         epochs=8, verbose=2, validation_data=gen_tst,
-                        validation_steps=(nbr_tst_samples // batch_size),
+                        validation_steps=(nbr_tst_samples // batch_size * 4),
                         initial_epoch=0,
                         callbacks=callbacks_list)
 
